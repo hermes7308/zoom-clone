@@ -4,5 +4,5 @@ if test -f "$PID_FILE"; then
     kill -9 $(cat $PID_FILE)
     rm $PID_FILE
 else
-    echo "$PID_FILE doesn't exists. Please check the kraken bot process is stopped."
+    echo "$PID_FILE doesn't exists. Please check the process is stopped."
 fi
