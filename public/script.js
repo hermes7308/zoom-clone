@@ -21,6 +21,11 @@ navigator.mediaDevices.getUserMedia({
     call.on('stream', userVideoStream => {
       addVideoStream(video, userVideoStream)
     })
+    call.on('close', () => {
+      video.remove()
+    })
+    
+    peers[call.peer] = call
   })
 
   socket.on('user-connected', userId => {
@@ -44,7 +49,9 @@ navigator.mediaDevices.getUserMedia({
 })
 
 socket.on('user-disconnected', userId => {
-  if (peers[userId]) peers[userId].close()
+  if (peers[userId]) {
+    peers[userId].close()
+  }
 })
 
 myPeer.on('open', id => {
@@ -89,7 +96,6 @@ const muteUnmute = () => {
 }
 
 const playStop = () => {
-  console.log('object')
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
